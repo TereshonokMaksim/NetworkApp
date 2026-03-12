@@ -1,0 +1,33 @@
+safeArea: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+    },
+container: {
+        flex: 1,
+    },
+header: {
+        backgroundColor: '#ffffff',
+        elevation: 0,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f0f0f0',
+        height: 60,
+    },
+headerTitle: {
+        fontWeight: 'bold',
+        color: '#4A2B4D',
+        fontSize: 22,
+    },
+contentPlaceholder: {
+        flex: 1,
+        padding: 20,
+        alignItems: 'center',
+    },
+placeholderText: {
+        color: '#A0A0A0',
+        fontSize: 16,
+    },
+footer: {
+        backgroundColor: '#ffffff',
+        borderTopWidth: 1,
+        borderTopColor: '#f0f0f0',
+    },
