@@ -21,5 +21,15 @@ export const styles = StyleSheet.create({
     "headerRight": {
         flexDirection: "row",
         gap: 10
+    },
+    "headerBarA": {
+        width: "100%",
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 16,
+        paddingRight: 16,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#FFF"
     }
 })

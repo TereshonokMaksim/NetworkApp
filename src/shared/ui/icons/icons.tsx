@@ -1,4 +1,6 @@
 import { ChatsIcon } from "./_icons/Chats";
+import { EyeClosedIcon } from "./_icons/EyeClosed";
+import { EyeOpenedIcon } from "./_icons/EyeOpened";
 import { FriendsIcon } from "./_icons/Friends";
 import { GaleryIcon } from "./_icons/Galery";
 import { HomeIcon } from "./_icons/Home";
@@ -14,5 +16,7 @@ export const Icons = {
     ChatsIcon,
     FriendsIcon,
     GaleryIcon,
-    HomeIcon
+    HomeIcon,
+    EyeClosedIcon,
+    EyeOpenedIcon
 }

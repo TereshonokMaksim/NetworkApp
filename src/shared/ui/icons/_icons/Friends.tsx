@@ -1,6 +1,7 @@
 import { COLORS } from "../../../constants/colors"
 import Svg, { Path, SvgProps } from "react-native-svg"
 
+
 export function FriendsIcon(props: SvgProps) {
   return (
         <Svg
