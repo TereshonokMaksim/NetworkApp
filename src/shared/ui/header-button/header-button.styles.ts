@@ -9,7 +9,9 @@ export const styles = StyleSheet.create({
         borderRadius: 100,
         borderWidth: 1,
         borderStyle: "solid",
-        padding: 10
+        padding: 10,
+        alignItems: "center",
+        gap: 8
     },
     icon: {
         width: 20,

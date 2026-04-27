@@ -7,6 +7,10 @@ import { HomeIcon } from "./_icons/Home";
 import { LogoutIcon } from "./_icons/Logout";
 import { PlusIcon } from "./_icons/Plus";
 import { SettingsIcon } from "./_icons/Settings";
+import { PencilIcon } from "./_icons/Pencil";
+import { TrashIcon } from "./_icons/Trash";
+import { CrossIcon } from "./_icons/Cross";
+import { TripleDotIcon } from "./_icons/TripleDot";
 
 
 export const Icons = {
@@ -18,5 +22,9 @@ export const Icons = {
     GaleryIcon,
     HomeIcon,
     EyeClosedIcon,
-    EyeOpenedIcon
+    EyeOpenedIcon,
+    PencilIcon,
+    TrashIcon,
+    CrossIcon,
+    TripleDotIcon
 }

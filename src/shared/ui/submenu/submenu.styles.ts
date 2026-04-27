@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     },
     textActivated: {
         display: 'flex',
-        alignContent: "flex-start",
+        alignItems: "flex-start",
         justifyContent: "flex-start",
         minHeight: 26,
         maxHeight: 26,
@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
     },
     textActivatedReversed: {
         display: 'flex',
-        alignContent: "flex-start",
+        alignItems: "flex-start",
         justifyContent: "flex-start",
         minHeight: 26,
         maxHeight: 26,
