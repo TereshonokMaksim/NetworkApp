@@ -6,13 +6,14 @@ import { Icons } from "../icons/icons";
 import { useRouter } from "expo-router";
 import { usePathname } from "expo-router";
 import { COLORS } from "../../constants/colors";
+import { useUserContext } from "../../context";
 
 
-export function Header() {
+export function Header(props?: any) {
     const router = useRouter()
     const path = usePathname()
-    if (path !== "/user/registration" && path !== "/user/login"){
-        return (
+    const { setToken, setUser } = useUserContext()
+    return (
             <View style = {styles.headerBar}>
                 <Images.LogoImage style = {styles.headerImage}/>
                 <View style = {styles.headerRight}>
@@ -22,14 +23,14 @@ export function Header() {
                     {!(path == "/chats" || path == "/chats_add/messages" || path == "/chats_add/groups") &&
                         <HeaderButton iconLeft = {<Icons.SettingsIcon/>} onPress={() => {router.navigate("settings/personal")}} style = {(path == "/settings/albums" || path == "/settings/personal") ? {backgroundColor: COLORS.plum50} : {}}label = "Налаштування"/>
                     }
-                    <HeaderButton iconLeft = {<Icons.LogoutIcon/>} label = "Вийти"/>
+                    <HeaderButton iconLeft = {<Icons.LogoutIcon/>} label = "Вийти" onPress = {
+                        () => {
+                            setUser(null)
+                            setToken(null)
+                            router.push("user/login")
+                        }
+                    }/>
                 </View>
             </View>
-        )
-    }
-    else {
-        return <View style = {styles.headerBarA}>
-            <Images.LogoImage style = {styles.headerImage}/>
-        </View>
-    }
+    )
 }

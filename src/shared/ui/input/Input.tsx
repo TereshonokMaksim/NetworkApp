@@ -6,25 +6,30 @@ import { useState } from "react";
 
 
 export function Input(props: InputProps) {
-    const {
+    let {
         label,
         error,
         style,
         inputContainerStyle,
         labelStyle,
+        editable,
         ...restProps
     } = props;
+    if (!editable && editable != false){
+        editable = true
+    }
     return (
         <View style = {[styles.inputWrapperGen]}>
-            <Text style={[styles.label, labelStyle]}>{label}</Text>
+            <Text style={[styles.label, !editable ? styles.inactiveLabel : "", labelStyle]}>{label}</Text>
             <View style={[styles.inputContainer, inputContainerStyle]}>
                 <TextInput
-                    style={[styles.input, style]}
+                    style={[styles.input, !editable ? styles.inactiveInput : "", style]}
+                    editable
                     {...restProps}
                 ></TextInput>
             </View>
 
-            {error && (<Text style={styles.errorText}>{error}</Text>)}
+            {!!error && (<Text style={styles.errorText}>{error}</Text>)}
         </View>
     );
 }

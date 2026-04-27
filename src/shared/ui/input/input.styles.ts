@@ -38,12 +38,19 @@ export const styles = StyleSheet.create({
         fontFamily: "GTWP Regular"
 	},
 	errorText: {
-		color: COLORS.red,
+		color: "#ff0000",
 	},
 	passwordButton: {
 		width: 20,
 		height: 20,
 		justifyContent: "center",
 		alignItems: "center",
+	},
+	inactiveInput: {
+		borderColor: COLORS.blue50,
+		color: COLORS.blue50
+	},
+	inactiveLabel: {
+		color: COLORS.blue50
 	},
 });

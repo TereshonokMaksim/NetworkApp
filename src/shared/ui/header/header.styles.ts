@@ -11,7 +11,8 @@ export const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 16,
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        backgroundColor: COLORS.white
     },
     "headerImage": {
         width: 145,

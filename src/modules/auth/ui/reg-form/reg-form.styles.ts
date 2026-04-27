@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../../../../shared/constants/colors";
-import { Fonts } from "../../../../shared/constants/fonts"
+// import { Fonts } from "../../../../shared/constants/fonts"
 
 
 export const styles = StyleSheet.create({
@@ -10,10 +10,10 @@ export const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         gap: 24,
         flexDirection: "column",
-        alignContent: "center",
+        alignItems: "center",
         width: 343,
         borderRadius: 20,
-        marginTop: 40
+        marginTop: -60
     },
     formTop: {
         flexDirection: "row",

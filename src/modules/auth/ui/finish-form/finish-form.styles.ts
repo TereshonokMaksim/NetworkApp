@@ -4,6 +4,14 @@ import { COLORS } from "../../../../shared/constants/colors";
 
 
 export const styles = StyleSheet.create({
+    bgBlur: {
+        ...StyleSheet.absoluteFill,
+        backgroundColor: "#00000044",
+        zIndex: 999,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingBottom: 200
+    },
     mainForm: {
         paddingHorizontal: 16,
         paddingVertical: 44,
@@ -13,7 +21,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         width: 343,
         borderRadius: 20,
-        marginTop: -60
+        marginTop: 40
     },
     formTop: {
         flexDirection: "row",
@@ -46,5 +54,19 @@ export const styles = StyleSheet.create({
         gap: 16,
         flexDirection: "column"
     },
-
+    buttonRight: {
+        width: "100%",
+        alignItems: "flex-end"
+    },
+    textLol: {
+        maxWidth: "100%",
+        fontSize: 12,
+        fontFamily: "GTWP Regular"
+    },
+    greenLol: {
+        maxWidth: "100%",
+        fontSize: 12,
+        fontFamily: "GTWP Regular",
+        color: "#22C55E"
+    }
 })
