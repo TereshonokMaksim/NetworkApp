@@ -6,6 +6,7 @@ import { FForm } from "../../modules/auth/ui/finish-form/finish-form";
 
 
 export default function MainScreen(){
+    const {data: posts} = useGetAllPostsQuery({pageNumber: 0})
     return (
 
         <View style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
