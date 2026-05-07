@@ -12,24 +12,12 @@ import { baseApi } from "../../../shared/api/api";
 export const albumApi = baseApi.enhanceEndpoints({ addTagTypes: ["albums", "albumImages"] }).injectEndpoints({
 	endpoints: (build) => {
 		return {
-			getAllTags: build.query<Tag[], object>({
-				query: (body?) => ({
-					url: "albums/tags",
-					method: "GET",
-				})
-			}),
-			getTag: build.query<Tag, { id: number | string }>({
-				query: (body) => ({
-					url: `albums/tags/${body.id}`,
-					method: "GET",
-				}),
-			}),
 			createAlbum: build.mutation<Album, AlbumCreate>({
-				query: (body) => {console.log("HOW EYYYY"); return {
+				query: (body) => ({
 					url: `albums`,
 					method: "POST",
 					body,
-				}}, 
+				}), 
                 invalidatesTags: ["albums"],
                 
 			}),
@@ -52,10 +40,10 @@ export const albumApi = baseApi.enhanceEndpoints({ addTagTypes: ["albums", "albu
                 invalidatesTags: ['albums']
             }),
 			getAllUserAlbums: build.query<Album[], object>({
-				query: (body?) => {console.log("Why are you not refreshing"); return {
+				query: (body?) => ({
 					url: "albums",
 					method: "GET",
-				}},
+				}),
                 providesTags: ["albums"]
 			}),
 			getAlbumImages: build.query<AlbumImageForShow[], { albumId: number | string }>({
@@ -108,8 +96,6 @@ export const albumApi = baseApi.enhanceEndpoints({ addTagTypes: ["albums", "albu
 
 
 export const {
-	useGetAllTagsQuery,
-	useGetTagQuery,
 	useGetAlbumImagesQuery,
 	useGetAllUserAlbumsQuery,
 	useCreateAlbumImageMutation,

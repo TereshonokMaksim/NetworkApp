@@ -69,19 +69,15 @@ export default function PersonalInfoScreen(){
         return
     }
     async function topSubmit(data: TopDataType){
-        console.log("Submit")
         if (!data.nickname){
             topSetError("nickname", {message: "Ім'я користувача обов'язкове"})
             return
         }
         setTopInputsUnlocked(false)
         const res = await mod({nickname: data.nickname, avatar: data.avatar ? data.avatar : null}).unwrap()
-        console.log("I GOT TOP")
-        console.log(res)
         setUser(res)
     }
     async function midSubmit(data: MidDataType){
-        console.log("Submit mid")
         if (!data.name){
             midSetError("name", {message: "Ім'я обов'язкове"})
             return
@@ -99,9 +95,7 @@ export default function PersonalInfoScreen(){
             return
         }
         setMidInputsUnlocked(false)
-        console.log("TEST")
         const res = await mod({name: data.name, surname: data.surname, birthday: data.birthday, email: data.email}).unwrap()
-        console.log("WA")
         setUser(res)
     }
 
@@ -266,7 +260,6 @@ export default function PersonalInfoScreen(){
                             name="email"
                             disabled = {!midInputsUnlocked}
                             render = {({ field, fieldState }) => {
-                                console.log(midInputsUnlocked)
                                 return <Input
                                     placeholder="Ваша електронна адреса"
                                     label="Електронна адреса"

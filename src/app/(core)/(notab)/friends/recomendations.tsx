@@ -1,6 +1,8 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { Submenu } from "../../../../shared/ui/submenu/submenu";
 import { COLORS } from "../../../../shared/constants/colors";
+import { testRecomendationProfiles } from "../../../../modules/friends/TEST_DATA";
+import { UsersBlock } from "../../../../modules/friends/ui/usersBlock";
 
 
 export default function FriendsRecomendationsScreen(){
@@ -28,9 +30,15 @@ export default function FriendsRecomendationsScreen(){
                     ]
                 }
             />
-            <Text style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
-                Friends Recomendations Page
-            </Text>
+            <ScrollView>
+                <UsersBlock
+                    name="Рекомендації"
+                    profiles={testRecomendationProfiles}
+                    actionText="Додати"
+                    actionOnProceed={(i: number) => {}}
+                    dontShowAllLink = {true}
+                />
+            </ScrollView>
             <View style = {{width: "15%", height: 2, backgroundColor: COLORS.plum, position: "absolute", bottom: 0, left: "55%", }}></View>
         </View>
     )

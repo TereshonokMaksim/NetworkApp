@@ -26,8 +26,7 @@ export function FForm(){
     const { refetch, data } = useMeQuery();
 
 	async function onSubmit(data: FFormSchema) {
-		console.log(data);
-        const result = await logMut({username: data.username, nickname: data.nickname}).unwrap()
+        await logMut({username: data.username, nickname: data.nickname}).unwrap()
         refetch()
 	}
     useEffect(() => {setUser(data ? data : null)},[data])

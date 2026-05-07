@@ -65,7 +65,6 @@ export function RegForm(){
     const { setToken } = useUserContext()
     const [regMut] = useRegisterMutation()
 	async function onSubmit(data: RegFormSchema) {
-        console.log("What is happening????")
         if (data.password != data.passwordConf){
             setError("password", {type: "manual", message: "Паролі мають співпадати!"})
             setError("passwordConf", {type: "manual", message: "Паролі мають співпадати!"})
@@ -81,7 +80,6 @@ export function RegForm(){
             setToken(result.token)
             router.push("user/verification")
         }
-        // console.log("RTK RESULT:", result);
 	}
     return (
         <View style = {styles.mainForm}>

@@ -31,7 +31,6 @@ export function VerifForm(){
 	function onSubmit(data: VerifFormSchema) {
         const codeT = `${data.num1}${data.num2}${data.num3}${data.num4}${data.num5}${data.num6}`
         modMut({code: codeT})
-        console.log("Trying to verify: ", codeT)
         router.push("main")
 	}
     const inputs = useRef<(TextInput | null)[]>([]);

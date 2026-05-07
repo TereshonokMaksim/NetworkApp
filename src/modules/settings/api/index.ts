@@ -1,6 +1,4 @@
 export {
-	useGetAllTagsQuery,
-	useGetTagQuery,
 	useGetAlbumImagesQuery,
 	useGetAllUserAlbumsQuery,
 	useCreateAlbumImageMutation,

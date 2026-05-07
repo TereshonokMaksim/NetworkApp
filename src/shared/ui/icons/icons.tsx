@@ -11,6 +11,10 @@ import { PencilIcon } from "./_icons/Pencil";
 import { TrashIcon } from "./_icons/Trash";
 import { CrossIcon } from "./_icons/Cross";
 import { TripleDotIcon } from "./_icons/TripleDot";
+import { SmileIcon } from "./_icons/Smile"
+import { PlaneIcon } from "./_icons/Plane";
+import { HeartIcon } from "./_icons/Heart";
+import { LikeIcon } from "./_icons/Like";
 
 
 export const Icons = {
@@ -26,5 +30,9 @@ export const Icons = {
     PencilIcon,
     TrashIcon,
     CrossIcon,
-    TripleDotIcon
+    TripleDotIcon,
+    SmileIcon,
+    PlaneIcon,
+    HeartIcon,
+    LikeIcon
 }

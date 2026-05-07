@@ -26,11 +26,9 @@ export function LogForm(){
     const [logMut] = useLoginMutation()
 
 	async function onSubmit(data: LogFormSchema) {
-		console.log(data);
         const result = await logMut({email: data.email, password: data.password}).unwrap()
         if ("token" in result){
             setToken(result.token)
-            console.log(result.token)
             router.push("main")
         }
 	}
