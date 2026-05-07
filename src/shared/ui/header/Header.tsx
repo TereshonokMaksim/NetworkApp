@@ -7,14 +7,11 @@ import { useRouter } from "expo-router";
 import { usePathname } from "expo-router";
 import { COLORS } from "../../constants/colors";
 import { useUserContext } from "../../context";
-import { CreatePostModal } from "../../../modules/posts/ui/createPostModal/createPostModal";
-import { useState } from "react";
 
 
 export function Header(props?: any) {
     const router = useRouter()
     const path = usePathname()
-    const [createPostVisible, setCreatePostVisible] = useState(false)
     const { setToken, setUser } = useUserContext()
     return (
             <View style = {styles.headerBar}>

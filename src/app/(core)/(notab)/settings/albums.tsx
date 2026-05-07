@@ -9,15 +9,13 @@ import {
     useCreateAlbumImageMutation, 
     useEditAlbumMutation, 
     useCreateAlbumMutation, 
+    useGetTagQuery, 
+    useGetAllTagsQuery, 
     useGetAllUserAlbumsQuery, 
     useDeleteAlbumImageMutation, 
     useEditAlbumImageMutation,
     useDeleteAlbumMutation
 } from "../../../../modules/settings/api";
-import {
-    useGetTagByIdQuery, 
-    useGetAllTagsQuery, 
-} from "../../../../modules/tags/api"
 import { Album, AlbumImageForShow } from "../../../../shared/albums";
 import { Image } from "expo-image"
 import { Controller, useForm } from "react-hook-form";
@@ -48,6 +46,7 @@ function AlbumImageComp(props: AlbumImageProps){
     const { image } = props
     const [deleteImage] = useDeleteAlbumImageMutation({})
     const [editImage] = useEditAlbumImageMutation({})
+    console.log(image)
     return (
         <View style = {styles.albumImageWhole}>
             <Image source = {`${BACK_HOST}/media/${image.originalImagePath}`} style = {styles.albumImageImage}/>
@@ -68,7 +67,7 @@ function AlbumImageComp(props: AlbumImageProps){
 function AlbumComp(props: AlbumProps) {
 	const { album, setEditData } = props;
     const {data: images} = useGetAlbumImagesQuery({albumId: album.id})
-    const {data: tag} = useGetTagByIdQuery({id: album.tagId})
+    const {data: tag} = useGetTagQuery({id: album.tagId})
     const [editAlbum] = useEditAlbumMutation({})
     const [addAlbumImage] = useCreateAlbumImageMutation({})
     const [deleteAlbum] = useDeleteAlbumMutation()
@@ -196,18 +195,23 @@ function CreateAlbumModal(props: CreateAlbumModalProps){
         clearErrors()
     }
     function onSubmit(data: CreateAlbumData){
+        console.log("ON SUMBIT")
         if (!data.tagId){
             setError("tagId", {message: "Tag is required"})
+            console.log("No tag???")
             return
         }
         if (!data.year){
             setError("year", {message: "Year is required"})
             return
         }
+        console.log("AFTER CHECK")
         if (!editAlbumData) {
+            console.log("On a good path")
             createAlbumQuery({name: data.albumName, tagId: data.tagId, year: +data.year})
         }
         else {
+            console.log(editAlbumData)
             editAlbumQuery({name: data.albumName, tagId: data.tagId, year: +data.year, albumId: editAlbumData.albumId})
         }
         onClose()
@@ -354,6 +358,7 @@ function CreateAlbumBlock(props: CreateAlbumBlockProps){
     useEffect(() => {
         if (!!editData) setVisible(true)
     }, [editData])
+    console.log("Pushing")
     return (
         <View style = {createStyles.mainBlock}>
             <CreateAlbumModal visible = {visible} onClose = {() => {setVisible(false), setEditData(null)}} editAlbumData={editData}/>
@@ -383,7 +388,7 @@ export default function AlbumsScreen() {
 				]}
 			/>
             <ScrollView contentContainerStyle = {genericStyles.all}>
-                {albums?.map((el) => {return <AlbumComp setEditData={setAlbumEditData} album={el} key = {el.id}/>})}
+                {albums?.map((el) => {console.log(el.id); return <AlbumComp setEditData={setAlbumEditData} album={el} key = {el.id}/>})}
                 <CreateAlbumBlock firstNewAlbum = {albums ? !(albums.length-1) : true} editData={albumEditData} setEditData={setAlbumEditData}/>
             </ScrollView>
 		</View>

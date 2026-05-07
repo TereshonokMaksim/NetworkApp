@@ -1,16 +1,21 @@
-import { ScrollView, View } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../shared/constants/colors";
-import { useGetAllPostsQuery } from "../../modules/posts/api/post-api";
-import { PostShow } from "../../modules/posts/ui/showPost/showPost";
-import { PostList } from "../../modules/posts/ui/postList";
-import { StyleSheet } from "react-native";
+import { Link, Redirect, router } from "expo-router";
+import { useUserContext } from "../../shared/context";
+import { FForm } from "../../modules/auth/ui/finish-form/finish-form";
 
 
 export default function MainScreen(){
     const {data: posts} = useGetAllPostsQuery({pageNumber: 0})
     return (
+
         <View style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
-            <PostList posts = {posts ? posts : []}/>
+            <Text>
+                Main Page
+            </Text>
+            <Link href = "user/registration"><Text>To reg</Text></Link>
+            <Link href = "user/login"><Text>To log</Text></Link>
+            <Link href = "user/verification"><Text>To verification</Text></Link>
             <View style = {{width: "15%", height: 2, backgroundColor: COLORS.plum, position: "absolute", bottom: 0, left: "5%", }}></View>
         </View>
     )

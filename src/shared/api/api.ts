@@ -51,7 +51,7 @@ export const baseApi = createApi({
 				})
 			}),
 			me: build.query<MeResponse, void>({
-				query: () => ({ url: "users/me" }),
+				query: () => {console.log("remaking"); return { url: "users/me" }},
 				providesTags: ["user"]
 			}),
 			modify: build.mutation<ModifyResponse, ModifyPayload>({
@@ -68,6 +68,8 @@ export const baseApi = createApi({
 							name: `${Date.now()}.jpeg`,
 						} as any)
 					}
+					console.log("SENDING MODIFY REQUEST!")
+					console.log(newFormData)
 					return {
 						url: "users/me",
 						method: "PATCH",
