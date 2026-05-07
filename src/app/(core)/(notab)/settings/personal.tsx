@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Alert, Modal } from "react-native";
 import { Submenu } from "../../../../shared/ui/submenu/submenu";
 import { styles } from "./personal.styles"
 import { HeaderButton } from "../../../../shared/ui/header-button/HeaderButton";
@@ -34,6 +34,7 @@ interface PassDataType {
 }
 
 export default function PersonalInfoScreen(){
+     const [isPasswordModalVisible, setIsPasswordModalVisible] = useState(false);
     const { user, isInited, setUser } = useUserContext()
     const [mod] = useModifyMutation()
     const { handleSubmit: handleSubmitTop, control: controlTop, setError: topSetError } = useForm({
@@ -284,11 +285,42 @@ export default function PersonalInfoScreen(){
                             <Text style = {styles.textOfBlock}>
                                 Пароль
                             </Text>
-                            <HeaderButton label = "" iconLeft = {<Icons.PencilIcon/>}><Icons.PencilIcon/></HeaderButton>
+                            <HeaderButton
+                            label = "" 
+                            iconLeft = {<Icons.PencilIcon/>}
+                            onPress={() => setIsPasswordModalVisible(true)}>    
+                            <Icons.PencilIcon />
+                            </HeaderButton>
                         </View>
                         <Input label="Пароль" placeholder="*****"/>
                     </View>
                 </View>
+                <Modal>
+                    <View>
+                        <View>
+                            <Text>
+                                Зміна пароля
+                            </Text>
+                            <Input
+                                label="Новий пароль"
+                                placeholder="********"
+                            />
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => setIsPasswordModalVisible(false)}
+                                >
+                                    <Text>Скасувати</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={() => setIsPasswordModalVisible(false)}
+                                >
+                                    <Text>Зберегти</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
                 <View style = {styles.filler}></View>
                 <View style = {styles.fullBlock}>
                     <View style = {styles.topBlock}>
