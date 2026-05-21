@@ -1,7 +1,7 @@
+import  React from "react"
 import { View, Text, TouchableOpacity, Image  } from "react-native";
 import { Submenu } from "../../../../shared/ui/submenu/submenu";
 import { COLORS } from "../../../../shared/constants/colors";
-import { router } from "expo-router";
 
 
 export default function FriendsRecomendationsScreen(){
@@ -29,13 +29,6 @@ export default function FriendsRecomendationsScreen(){
                     ]
                 }
             />
-            <TouchableOpacity
-                onPress={() => router.push("/user/1")}
-            >
-                <Image
-                    source={{ uri: "" }}
-                />
-            </TouchableOpacity>    
             <Text style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
                 Friends Recomendations Page
             </Text>

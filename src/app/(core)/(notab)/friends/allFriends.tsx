@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Submenu } from "../../../../shared/ui/submenu/submenu";
 import { COLORS } from "../../../../shared/constants/colors";
