@@ -1,4 +1,4 @@
-import { GroupChatPreview, CreateGroupChatDto } from './group-chats-api-types';
+import { GroupChatPreview, CreateGroupChatDto } from './chats-api-types';
 
 const mockGroupChats: GroupChatPreview[] = [
   {
