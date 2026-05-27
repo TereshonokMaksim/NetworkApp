@@ -2,13 +2,12 @@ import { View, ScrollView } from "react-native";
 import { Submenu } from "../../shared/ui/submenu/submenu";
 import { COLORS } from "../../shared/constants/colors";
 import { FullUserList } from "../../modules/friends/ui/fullUserList";
-import {
-	testFriendProfiles,
-	testRecomendationProfiles,
-	testRequestProfiles,
-} from "../../modules/friends/TEST_DATA";
+import { useGetFriendsQuery, useGetRecomendationsQuery, useGetRequestsQuery } from "../../modules/friends/api";
 
 export default function FriendsMainScreen() {
+    const fData = useGetFriendsQuery({})
+    const rcData = useGetRecomendationsQuery({})
+    const rqData = useGetRequestsQuery({})
 	return (
 		<View style={{ backgroundColor: "#FAF8FF", height: "100%" }}>
 			<Submenu
@@ -31,11 +30,11 @@ export default function FriendsMainScreen() {
 					},
 				]}
 			/>
-            <ScrollView>
+            <ScrollView contentContainerStyle = {{paddingBottom: 10}}>
                 <FullUserList
-                    friends={testFriendProfiles}
-                    requests={testRequestProfiles}
-                    recomendations={testRecomendationProfiles}
+                    friends={fData.data ? fData.data : []}
+                    requests={rqData.data ? rqData.data : []}
+                    recomendations={rcData.data ? rcData.data : []}
                 ></FullUserList>
             </ScrollView>
 			<View

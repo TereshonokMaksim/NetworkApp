@@ -1,11 +1,12 @@
 import { View, Text, ScrollView } from "react-native";
 import { Submenu } from "../../../../shared/ui/submenu/submenu";
 import { COLORS } from "../../../../shared/constants/colors";
-import { testRecomendationProfiles } from "../../../../modules/friends/TEST_DATA";
+import { useGetRecomendationsQuery } from "../../../../modules/friends/api";
 import { UsersBlock } from "../../../../modules/friends/ui/usersBlock";
 
 
 export default function FriendsRecomendationsScreen(){
+    const data = useGetRecomendationsQuery({})
     return (
         <View style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
             <Submenu
@@ -30,13 +31,15 @@ export default function FriendsRecomendationsScreen(){
                     ]
                 }
             />
-            <ScrollView>
+            <ScrollView contentContainerStyle = {{paddingBottom: 10}}>
                 <UsersBlock
                     name="Рекомендації"
-                    profiles={testRecomendationProfiles}
+                    profiles={data.data ? data.data : []}
                     actionText="Додати"
                     actionOnProceed={(i: number) => {}}
                     dontShowAllLink = {true}
+                    actionOnDelete={(id?) => {}}
+                    emptyListText = "Рекомендацій поки що немає."
                 />
             </ScrollView>
             <View style = {{width: "15%", height: 2, backgroundColor: COLORS.plum, position: "absolute", bottom: 0, left: "55%", }}></View>

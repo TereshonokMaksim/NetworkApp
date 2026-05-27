@@ -1,1 +1,1 @@
-export const BACK_HOST = "http://192.168.2.40:8002"
+export const BACK_HOST = "http://10.186.96.218:8002"

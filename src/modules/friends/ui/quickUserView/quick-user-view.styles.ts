@@ -40,5 +40,37 @@ export const stylesBase = StyleSheet.create({
         flexDirection: "row",
         gap: 16,
         justifyContent: "center"
-    }
+    },
+    modalBg: {
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.5)"
+    },
+    modal: {
+        backgroundColor: COLORS.white,
+        paddingHorizontal: 16,
+        paddingVertical: 44,
+        gap: 36,
+        borderRadius: 20,
+        alignItems: "center",
+        width: 343
+    },
+    modalTitle: {
+        fontFamily: "GTWP Medium",
+        color: COLORS.blue,
+        fontSize: 24
+    },
+    modalDesc: {
+        fontFamily: "GTWP Regular",
+        color: COLORS.blue,
+        fontSize: 16
+    },
+    modalButtonBox: {
+        width: "100%",
+        flexDirection: "row",
+        gap: 16,
+        justifyContent: "flex-end"
+    }   
 })

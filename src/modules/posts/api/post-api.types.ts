@@ -7,6 +7,16 @@ export type CreatePost = {
     links: string[]
 }
 
+export type EditPost = {
+    postId: number,
+    images: string[],
+    title: string,
+    tagIds: number[],
+    topic: string,
+    text: string,
+    links: string[]
+}
+
 export type PostImage = {
     id: number;
     originalImagePath: string;

@@ -9,5 +9,5 @@ export const COLORS = {
     fog: "#FAF8FF",
     green: "#22C55E",
     red: "",
-    
+    // blue30: "" // CUSTOM COLOR
 }

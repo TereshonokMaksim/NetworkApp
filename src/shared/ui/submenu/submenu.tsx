@@ -14,7 +14,8 @@ export function Submenu(props: SubmenuProps){
                 if (reversed) return <Link href = {el.href} key = {el.href} asChild>
                     <TouchableOpacity style = {StyleSheet.flatten([processed == el.href ? [styles.reversedLink, styles.reversedActiveLink] : [styles.reversedLink]])}>
                         {!!el.icon && el.icon}
-                        <Text style = {StyleSheet.flatten([processed != el.href ? styles.textBaseReversed : styles.textActivatedReversed])}>{el.name}</Text>
+                        {/* <Text style = {StyleSheet.flatten([processed != el.href ? styles.textBaseReversed : styles.textActivatedReversed])}>{el.name}</Text> */}
+                        <Text style = {StyleSheet.flatten([true ? styles.textBaseReversed : styles.textActivatedReversed])}>{el.name}</Text>
                     </TouchableOpacity>
                 </Link>
                 return <Link href = {el.href} key = {el.href} asChild>

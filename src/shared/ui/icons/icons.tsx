@@ -15,6 +15,9 @@ import { SmileIcon } from "./_icons/Smile"
 import { PlaneIcon } from "./_icons/Plane";
 import { HeartIcon } from "./_icons/Heart";
 import { LikeIcon } from "./_icons/Like";
+import { BackIcon } from "./_icons/Back";
+import { GlassIcon } from "./_icons/Glass";
+import { CheckMarkIcon } from "./_icons/CheckMark";
 
 
 export const Icons = {
@@ -34,5 +37,8 @@ export const Icons = {
     SmileIcon,
     PlaneIcon,
     HeartIcon,
-    LikeIcon
+    LikeIcon,
+    BackIcon,
+    GlassIcon,
+    CheckMarkIcon
 }

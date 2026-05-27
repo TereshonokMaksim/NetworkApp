@@ -78,7 +78,7 @@ export function RegForm(){
         const result = await regMut({email: data.email, password: data.password}).unwrap()
         if ("token" in result){
             setToken(result.token)
-            router.push("user/verification")
+            router.navigate("user/verification")
         }
 	}
     return (

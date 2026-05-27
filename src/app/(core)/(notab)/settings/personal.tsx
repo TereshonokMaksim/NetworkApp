@@ -64,7 +64,7 @@ export default function PersonalInfoScreen(){
 
     if (!user){
         // if (isInited){
-        //     router.push("user/login")
+        //     router.navigate("user/login")
         // }
         return
     }

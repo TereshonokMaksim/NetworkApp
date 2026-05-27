@@ -196,7 +196,7 @@ function CreateAlbumModal(props: CreateAlbumModalProps){
         clearErrors()
     }
     function onSubmit(data: CreateAlbumData){
-        if (!data.tagId){
+        if (!data.tagId && data.tagId !== 0){
             setError("tagId", {message: "Tag is required"})
             return
         }
@@ -204,7 +204,9 @@ function CreateAlbumModal(props: CreateAlbumModalProps){
             setError("year", {message: "Year is required"})
             return
         }
+        console.log("qwe")
         if (!editAlbumData) {
+            console.log("CREATING")
             createAlbumQuery({name: data.albumName, tagId: data.tagId, year: +data.year})
         }
         else {

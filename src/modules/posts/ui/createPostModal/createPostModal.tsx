@@ -1,15 +1,15 @@
-import type { PostTag, CreatePost } from "../../api/post-api.types";
+import type { PostTag, CreatePost, EditPost } from "../../api/post-api.types";
 import { View, ScrollView, Text, TextInput, Modal, TouchableOpacity, Alert } from "react-native";
 import { stylesImage, stylesModal, stylesTag } from "./create-post-modal.styles";
 import { pickImage } from "../../../../shared/tools/img-pick";
 import { HeaderButton } from "../../../../shared/ui/header-button/HeaderButton";
 import { Image } from "expo-image";
 import { Icons } from "../../../../shared/ui/icons/icons";
-import { useCreatePostMutation } from "../../api/post-api";
+import { useCreatePostMutation, useEditPostMutation } from "../../api/post-api";
 import { useGetAllTagsQuery } from "../../../tags/api"
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "../../../../shared/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface TagComponentProps {
 	tag: PostTag;
@@ -54,19 +54,47 @@ function ImageComponent(props: ImageComponentProps) {
 }
 
 interface CreatePostModalProps {
+    editMode?: boolean
+    editData?: EditPost
 	visible: boolean;
 	onClose: () => void;
 }
 
 export function CreatePostModal(props: CreatePostModalProps) {
-	const { visible, onClose } = props;
+	const { visible, onClose, editMode, editData } = props;
 	const { data: tags, isLoading: tagsLoading } = useGetAllTagsQuery({});
+    const [ inited, setInited ] = useState(false)
+	const [ editPostMutation ] = useEditPostMutation();
 	const [ createPostMutation ] = useCreatePostMutation();
     const [activatedTags, setActivatedTags] = useState<number[]>([])
     const [activatedTagNames, setActivatedTagNames] = useState<string[]>([])
     const [images, setImages] = useState<string[]>([])
-	const { control, setValue, formState, handleSubmit, clearErrors, getValues } =
-		useForm<CreatePost>({ defaultValues: { links: [""], images: [], tagIds: [] } });
+	const { control, setValue, formState, handleSubmit, clearErrors, getValues } = useForm<CreatePost>(
+        { defaultValues: 
+            { links: [""], 
+              images: [], 
+              tagIds: [] 
+            } 
+        });
+    useEffect(() => {
+        if (editMode){
+            setEditData(editData!)
+        }
+    }, [editData])
+    function setEditData(data: EditPost) {
+		setValue("images", [...data.images]);
+		setValue("title", data.title);
+		setValue("tagIds", [...data.tagIds]);
+		setValue("topic", data.topic);
+		setValue("text", data.text);
+		setValue("links", [...data.links]);
+        setImages([...data.images])
+        setActivatedTags([...data.tagIds])
+        // let tagNames:  = []
+        // data.tagIds.map(el => {tagNames = [...tagNames, ...tags!.filter(elT => elT.id === el)]})
+        // setActivatedTagNames()
+		clearErrors();
+    }
 	function clearInputs() {
 		setValue("images", []);
 		setValue("title", "");
@@ -79,7 +107,12 @@ export function CreatePostModal(props: CreatePostModalProps) {
 		clearErrors();
 	}
 	function onSubmit(data: CreatePost) {
-        createPostMutation(data)
+        if (editMode){
+            console.log(data)
+            editPostMutation({postId: editData!.postId, ...data})
+        }
+        else {createPostMutation(data)}
+        setInited(false)
         clearInputs()
         onClose()
     }
@@ -110,7 +143,7 @@ export function CreatePostModal(props: CreatePostModalProps) {
                                 <Icons.CrossIcon />
                             </TouchableOpacity>
                         </View>
-                        <Text style={stylesModal.modalTitle}>Створення публікації</Text>
+                        <Text style={stylesModal.modalTitle}>{editMode ? "Редагування публікації" : "Створення публікації"}</Text>
                         <Controller
                             name="title"
                             control={control}
@@ -317,7 +350,7 @@ export function CreatePostModal(props: CreatePostModalProps) {
                                 onPress={handleSubmit(onSubmit)}
                                 style={stylesModal.submitButton}
                             >
-                                <Text style={stylesModal.submitButtonText}>Публікація</Text>
+                                <Text style={stylesModal.submitButtonText}>{editMode ? "Зберегти" : "Публікація"}</Text>
                                 <Icons.PlaneIcon />
                             </TouchableOpacity>
                         </View>

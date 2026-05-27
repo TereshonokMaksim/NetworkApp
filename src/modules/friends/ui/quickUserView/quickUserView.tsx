@@ -1,16 +1,24 @@
 import { AvatarWithIndicator } from "../../../../shared/ui/avatar-with-indicator";
 import { Button } from "../../../../shared/ui/button";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
 import type { QuickUserViewProps } from "./quick-user-view.types";
 import { stylesBase } from "./quick-user-view.styles";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 
 
 export function QuickUserView(props: QuickUserViewProps) {
-	const { profile, actionOnProceed, actionText } = props;
-
+	const { profile, actionOnProceed, actionOnDelete, actionText, notAutoThrow } = props;
+    const [ visible, setVisible ] = useState(false)
+    const [killed, setKilled] = useState(false)
+    console.log("PROFILE", profile)
+    const router = useRouter()
+    if (killed){
+        return
+    }
 	return (
 		<View style = {stylesBase.wholeQuickView}>
-			<View style = {stylesBase.quickTopView}>
+			<TouchableOpacity style = {stylesBase.quickTopView} onPress = {() => {router.navigate(`user/${profile.id}`)}}>
 				<AvatarWithIndicator
 					originalImagePath={profile.avatar}
 					compressedImagePath={profile.avatar}
@@ -19,17 +27,41 @@ export function QuickUserView(props: QuickUserViewProps) {
 				/>
 				<View style = {stylesBase.quickTopTextual}>
                     <Text style = {stylesBase.quickTopPseudonym}>
-                        {profile.user.username}
+                        {profile.username}
                     </Text>
                     <Text style = {stylesBase.quickTopUsername}>
-                        {profile.preudonym}
+                        {profile.pseudonym}
                     </Text>
                 </View>
-			</View>
+			</TouchableOpacity>
 			<View style = {stylesBase.quickBottomButtons}>
-                <Button variant = "primary" paddingVar = "small" title = {actionText}  onPress = {() => {actionOnProceed(profile.id)}}/>
-                <Button variant = "secondary" paddingVar = "small" title = "Видалити"/>
+                <Button variant = "primary" paddingVar = "small" title = {actionText} onPress = {() => {actionOnProceed(profile.id); !notAutoThrow && router.navigate(`user/${profile.id}`)}}/>
+                <Button variant = "secondary" paddingVar = "small" title = "Видалити" onPress = {() => {setVisible(true)}}/>
             </View>
+            <Modal
+                visible={visible}
+                animationType="none"
+                transparent={true}
+                onRequestClose={() => {
+                    setVisible(false)
+                }}
+                statusBarTranslucent
+            >
+                <View style = {stylesBase.modalBg}>
+                    <View style = {stylesBase.modal}>
+                        <Text style = {stylesBase.modalTitle}>
+                            Підтвердити дію
+                        </Text>
+                        <Text style = {stylesBase.modalDesc}>  
+                            Ви дійсно хочете видалити користувача?
+                        </Text>
+                        <View style = {stylesBase.modalButtonBox}>
+                            <Button title = "Скасувати" paddingVar = "small" variant = "secondary" bordersOn = {true} onPress = {() => {setVisible(false)}}/>
+                            <Button title = "Підтвердити" paddingVar = "small" variant = "primary" bordersOn = {true} onPress = {() => {setVisible(false); actionOnDelete(profile.id); setKilled(true)}}/>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 		</View>
 	);
 }

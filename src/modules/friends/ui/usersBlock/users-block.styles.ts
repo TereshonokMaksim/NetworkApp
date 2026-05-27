@@ -34,5 +34,16 @@ export const stylesBase = StyleSheet.create({
     blockList: {
         width: "100%",
         gap: 8
+    },
+
+    noListColor: {
+        color: COLORS.blue50
+    },
+    noListText: {
+        textAlign: "center",
+        width: "100%",
+        fontSize: 16,
+        fontFamily: "GTWP Regular",
+        color: COLORS.blue50
     }
 })

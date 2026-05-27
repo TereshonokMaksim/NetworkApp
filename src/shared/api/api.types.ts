@@ -27,3 +27,16 @@ export type VerifyResponse = {success: boolean};
 
 export type AvatarPayload = {id: number | string}
 export type AvatarResponse = {avatar: string}
+
+
+export type Profile = {
+	id: number
+    avatar: string | null | undefined
+    isOnline: boolean
+    username: string
+    pseudonym: string
+    postsTotal: number
+    readers: number
+    friends: number
+	status: string
+}

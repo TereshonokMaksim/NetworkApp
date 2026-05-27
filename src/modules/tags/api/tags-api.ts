@@ -5,7 +5,7 @@ export const tagsApi = baseApi
 	.enhanceEndpoints({ addTagTypes: ["tags"] })
 	.injectEndpoints({ endpoints: (build) => {
         return {
-            getAllTags: build.query<Tag, object>({
+            getAllTags: build.query<Tag[], object>({
                 query: (body?) => ({
                     url: "tags/",
                     method: "GET"

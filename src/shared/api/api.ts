@@ -7,7 +7,7 @@ import {
 	FetchBaseQueryMeta,
 } from "@reduxjs/toolkit/query/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AvatarPayload, AvatarResponse, LoginPayload, LoginResponse, MeResponse, ModifyPayload, ModifyResponse, RegPayload, RegResponse, VerifyPayload, VerifyResponse } from "./api.types";
+import { AvatarPayload, AvatarResponse, LoginPayload, LoginResponse, MeResponse, ModifyPayload, ModifyResponse, Profile, RegPayload, RegResponse, VerifyPayload, VerifyResponse } from "./api.types";
 import { BACK_HOST } from "../constants/api-data";
 import { Album, AlbumCreate, AlbumEdit, AlbumImageCreate, AlbumImageForShow, Tag } from "../albums";
 
@@ -76,16 +76,15 @@ export const baseApi = createApi({
 				},
 				invalidatesTags: ["avatarImages", "user"]
 			}),
-			getAvatarById: build.mutation<AvatarResponse, AvatarPayload>({
+			getProfile: build.query<Profile, {userId: number}>({
 				query: (body) => ({
-					url: `users/avatar/${body.id}`,
-					method: "GET"
+					url: `users/profile/${body.userId}`
 				})
-			}),
+			})
 			// createAlbum: build.mutation
 		};
 	},
 });
 
-export const { useMeQuery, useRegisterMutation, useLoginMutation, useModifyMutation, useVerifyMutation, useGetAvatarByIdMutation
+export const { useMeQuery, useRegisterMutation, useLoginMutation, useModifyMutation, useVerifyMutation, useGetProfileQuery
  } = baseApi;

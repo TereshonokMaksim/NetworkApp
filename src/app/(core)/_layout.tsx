@@ -99,6 +99,12 @@ export default function TabLayOut(){
                     href: null
                 }}
             />
+            <Tabs.Screen
+                name="(notab)/user"
+                options={{
+                    href: null
+                }}
+            />
         </Tabs>
 
     const {user} = useUserContext()
@@ -198,8 +204,14 @@ export default function TabLayOut(){
                     href: null
                 }}
             />
+            <Tabs.Screen
+                name="(notab)/user"
+                options={{
+                    href: null
+                }}
+            />
         </Tabs>
-                </View>
+    </View>
             )
         }
     }

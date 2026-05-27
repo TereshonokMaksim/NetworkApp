@@ -29,7 +29,7 @@ export function LogForm(){
         const result = await logMut({email: data.email, password: data.password}).unwrap()
         if ("token" in result){
             setToken(result.token)
-            router.push("main")
+            router.navigate("main")
         }
 	}
     return (

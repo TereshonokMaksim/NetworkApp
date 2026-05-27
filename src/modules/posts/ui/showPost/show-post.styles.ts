@@ -4,7 +4,7 @@ import { COLORS } from "../../../../shared/constants/colors";
 
 export const styles = StyleSheet.create({
     postWhole: {
-        width: "96%",
+        width: "100%",
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: COLORS.blue20,
@@ -129,5 +129,39 @@ export const imageListStyles = StyleSheet.create({
         borderRadius: 16,
         height: 200,
         maxWidth: "80%"
+    }
+})
+
+export const editSubWindowStyles = StyleSheet.create({
+    subWhole: {
+        width: 343,
+        padding: 16,
+        gap: 16,
+        backgroundColor: COLORS.plum50,
+        borderRadius: 10,
+        position: "absolute",
+        top: 10,
+        right: 0,
+        zIndex: 10
+    },
+    tripleDotContainer: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "flex-end"
+    },
+    subMainButton: {
+        flexDirection: "row",
+        gap: 10,
+        alignItems: "center"
+    },
+    subMainButtonText: {
+        fontSize: 16,
+        color: COLORS.blue,
+        fontFamily: "GTWP Medium"
+    },
+    subMainBorder: {
+        backgroundColor: COLORS.blue50,
+        width: "100%",
+        height: 1
     }
 })

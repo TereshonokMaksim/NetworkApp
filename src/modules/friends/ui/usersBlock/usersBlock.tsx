@@ -5,15 +5,16 @@ import type { UsersBlockProps } from "./users-block.types";
 import { useRouter } from "expo-router";
 
 export function UsersBlock(props: UsersBlockProps) {
-	const { name, profiles, actionOnProceed, actionText, lookAllLink, dontShowAllLink } = props;
+	const { name, profiles, actionOnProceed, actionOnDelete, actionText, lookAllLink, dontShowAllLink, emptyListText, notAutoThrow } = props;
 	const router = useRouter();
+    const noList = !profiles.length
 	return (
 		<View style={stylesBase.blockWhole}>
 			<View style={stylesBase.blockTop}>
 				<Text style={stylesBase.blockName}>{name}</Text>
 				{!dontShowAllLink && (
 					<Text
-						style={stylesBase.blockLookAll}
+						style={[stylesBase.blockLookAll, noList && stylesBase.noListColor]}
 						onPress={() => {
 							lookAllLink && router.navigate(lookAllLink);
 						}}
@@ -22,16 +23,17 @@ export function UsersBlock(props: UsersBlockProps) {
 					</Text>
 				)}
 			</View>
-			<View style={stylesBase.blockList}>
+            { noList ? <Text style = {stylesBase.noListText}>{emptyListText}</Text> : (<View style={stylesBase.blockList}>
 				{profiles.map((el) => (
 					<QuickUserView
 						profile={el}
 						actionOnProceed={actionOnProceed}
+						actionOnDelete={actionOnDelete}
 						actionText={actionText}
 						key={el.id}
+						notAutoThrow={notAutoThrow}
 					/>
-				))}
-			</View>
+				))}</View>)}
 		</View>
 	);
 }

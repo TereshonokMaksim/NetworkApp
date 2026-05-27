@@ -5,6 +5,9 @@ export interface UsersBlockProps {
 	profiles: UserProfile[];
 	actionText: string;
 	actionOnProceed: (profileId: number) => void;
+    actionOnDelete: (profileId: number) => void;
     lookAllLink?: string
     dontShowAllLink?: boolean
+    emptyListText: string
+    notAutoThrow?: boolean
 }
