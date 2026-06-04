@@ -29,8 +29,8 @@ interface MidDataType {
 }
 
 interface PassDataType {
-    password: "********",
-    passwordConf: ""
+    password: string,
+    passwordConf: string
 }
 
 export default function PersonalInfoScreen(){
@@ -39,7 +39,7 @@ export default function PersonalInfoScreen(){
     const { handleSubmit: handleSubmitTop, control: controlTop, setError: topSetError } = useForm({
         defaultValues: {
             nickname: user?.nickname ? user?.nickname : "",
-            avatar: user?.avatarPath ? `${BACK_HOST}/media/${user.avatarPath}` : null
+            avatar: user?.avatar ? `${BACK_HOST}/media/original/${user.avatar}` : null
         },
     });
     const { handleSubmit: handleSubmitMid, control: controlMid, setError: midSetError } = useForm({
@@ -73,6 +73,8 @@ export default function PersonalInfoScreen(){
             topSetError("nickname", {message: "Ім'я користувача обов'язкове"})
             return
         }
+        console.log("PUSHING AVATAR")
+        console.log(data.avatar)
         setTopInputsUnlocked(false)
         const res = await mod({nickname: data.nickname, avatar: data.avatar ? data.avatar : null}).unwrap()
         setUser(res)
@@ -98,7 +100,7 @@ export default function PersonalInfoScreen(){
         const res = await mod({name: data.name, surname: data.surname, birthday: data.birthday, email: data.email}).unwrap()
         setUser(res)
     }
-
+    console.log("User?", user.avatar)
     return (
         <View style = {{backgroundColor: "#FAF8FF"}}>
             <Submenu
@@ -164,7 +166,7 @@ export default function PersonalInfoScreen(){
                                     </View>
                                 }
                             />
-                        :(<Image style = {styles.avatarImage} source = {user.avatarPath ? `${BACK_HOST}/media/${user.avatarPath}` : require("../../../../assets/images/defaultAva.png")}/>)}
+                        :(<Image style = {styles.avatarImage} source = {user.avatar ? `${BACK_HOST}/media/original/${user.avatar}` : require("../../../../assets/images/defaultAva.png")}/>)}
                         <View style = {styles.blockTextRandom}>
                             <Text style = {styles.blockTextTop}>{user.username}</Text>
                             {topInputsUnlocked ? 

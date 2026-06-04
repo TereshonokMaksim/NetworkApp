@@ -48,9 +48,11 @@ function AlbumImageComp(props: AlbumImageProps){
     const { image } = props
     const [deleteImage] = useDeleteAlbumImageMutation({})
     const [editImage] = useEditAlbumImageMutation({})
+    console.log(image)
+    console.log(`${BACK_HOST}/media/${image.originalImagePath}`)
     return (
         <View style = {styles.albumImageWhole}>
-            <Image source = {`${BACK_HOST}/media/${image.originalImagePath}`} style = {styles.albumImageImage}/>
+            <Image source = {`${BACK_HOST}/media/original/${image.originalImagePath}`} style = {styles.albumImageImage}/>
             <View style = {styles.albumImageControl}>
                 <HeaderButton label = "" iconLeft = {
 								image.shown ? (

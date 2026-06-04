@@ -24,14 +24,15 @@ function PostShowImages(props: PostShowImagesProps) {
 		<View style={imageListStyles.list}>
 			{!!len && (
 				<View style={imageListStyles.block}>
-					{images.slice(0, 2).map((el) => (
-						<Image
+					{images.slice(0, 2).map((el) => {
+						console.log("Image", `${BACK_HOST}/media/${el.originalImagePath}`)
+						return <Image
 							style={imageListStyles.image}
 							source={`${BACK_HOST}/media/${el.originalImagePath}`}
 							placeholder={`${BACK_HOST}/media/${el.compressedImagePath}`}
 							key={el.id}
 						/>
-					))}
+					})}
 				</View>
 			)}
 			{len > 2 && (
@@ -75,7 +76,7 @@ export function PostShow(props: PostShowProps) {
 				editMode={true}
 				editData={{
 					postId: post.id,
-					images: post.images.map((el) => `${BACK_HOST}/media/${el.originalImagePath}`),
+					images: post.images.map((el) => `${BACK_HOST}/media/original/${el.originalImagePath}`),
 					links: post.links,
 					tagIds: post.tags.map((el) => el.id),
 					title: post.title,
@@ -127,7 +128,7 @@ export function PostShow(props: PostShowProps) {
 							style={styles.postHeaderAva}
 							source={
 								post.authorAvatarPath
-									? `${BACK_HOST}/media/${post.authorAvatarPath}`
+									? `${BACK_HOST}/media/original/${post.authorAvatarPath}`
 									: require("../../../../assets/images/defaultAva.png")
 							}
 						/>

@@ -16,18 +16,18 @@ export default function FriendsRequestsScreen(){
     const router = useRouter()
     let deleteFunction: (data: {userId: number}) => void = () => {};
     let approveFunction: (data: {userId: number}) => void = () => {};
-    let statButton = "Додати"
+    let statButton = "Підтвердити"
     const [df] = useDeleteFriendMutation()
     const [dr] = useDeleteRequestMutation()
     const [mf] = useMakeFriendMutation()
     const [mr] = useMakeRequestMutation()
     if (user.data?.status === "friends"){
-        statButton = "Повідомлення";``
+        // statButton = "Повідомлення";``
         deleteFunction = (data) => {df(data); router.navigate("friends")}
         approveFunction = (data) => {router.navigate("chats")}
     }
     else if (user.data?.status === "request"){
-        statButton = "Підтвердити"
+        // statButton = "Підтвердити"
         deleteFunction = (data) => {dr(data); router.navigate("friends")}
         approveFunction = (data) => {mf(data); router.navigate("friends")}
     }

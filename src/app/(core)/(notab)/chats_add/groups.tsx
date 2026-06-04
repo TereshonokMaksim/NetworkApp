@@ -4,6 +4,7 @@ import { Submenu } from "../../../../shared/ui/submenu/submenu";
 import { Icons } from "../../../../shared/ui/icons/icons";
 import { Image } from "expo-image"
 import { useRouter } from "expo-router";
+import { useGetUnreadDataQuery } from "../../../../modules/friends/api/friends-api";
 
 
 const blockStyles = StyleSheet.create({
@@ -149,6 +150,40 @@ export default function GroupsScreen(){
 		},
 	];
     const router = useRouter()
+        const {data: unreadData} = useGetUnreadDataQuery({})
+        const personalNum = unreadData?.unreadPersonalChats
+        const newPersonalIcon = (
+            <View style = {{
+                width: 20,
+                height: 20,
+                position: "relative",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <Icons.ChatsIcon color = {COLORS.plum}/>
+                {!!(personalNum && (personalNum ? (personalNum > 0) : false)) && (
+                    <View style = {{
+                        backgroundColor: COLORS.red,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: 20,
+                        height: 20,
+                        borderWidth: 2.25,
+                        borderStyle: "solid",
+                        borderColor: COLORS.white,
+                        borderRadius: 60,
+                        position: "absolute",
+                        right: -6,
+                        top: -6
+                    }}>
+                        <Text style = {{
+                            fontSize: 11,
+                            color: COLORS.white
+                        }}>{personalNum < 100 ? personalNum : "99"}</Text>
+                    </View>
+                )}
+            </View>
+        )
     return (
         <View style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
             <Submenu 
@@ -162,7 +197,7 @@ export default function GroupsScreen(){
                     {
                         name: "Повідомлення",
                         href: "chats_add/messages",
-                        icon: <Icons.ChatsIcon/>
+                        icon: newPersonalIcon
                     },
                     {
                         name: "Групові чати",

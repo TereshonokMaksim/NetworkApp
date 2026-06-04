@@ -5,6 +5,8 @@ import { Icons } from "../../../../shared/ui/icons/icons";
 import { StyleSheet } from "react-native";
 import { AvatarWithIndicator } from "../../../../shared/ui/avatar-with-indicator";
 import { useRouter } from "expo-router";
+import { useGetPersonalChatListQuery, useGetUnreadDataQuery } from "../../../../modules/friends/api/friends-api";
+import { useUserContext } from "../../../../shared/context";
 
 const blockStyles = StyleSheet.create({
 	main: {
@@ -57,8 +59,8 @@ const blockStyles = StyleSheet.create({
 		gap: 16,
 		width: "100%",
 		alignItems: "center",
-        height: 62,
-        paddingHorizontal: 10
+		height: 62,
+		paddingHorizontal: 10,
 	},
 	contactImage: {
 		borderRadius: 76.88,
@@ -73,25 +75,46 @@ const blockStyles = StyleSheet.create({
 	selected: {
 		backgroundColor: COLORS.plum50,
 	},
-    textData: {
-        gap: 4,
-        flex: 1
-    },
-    message: {
+	textData: {
+		gap: 4,
+		flex: 1,
+	},
+	message: {
 		fontSize: 14,
 		color: COLORS.blue,
 		fontFamily: "GTWP Medium",
-    },
-    timeText: {
+		maxWidth: 300
+	},
+	timeText: {
 		fontSize: 12,
 		color: COLORS.blue50,
 		fontFamily: "GTWP Medium",
-    },
-    contactTop: {
-        width: "100%",
-        justifyContent: "space-between",
-        flexDirection: "row"
-    }
+	},
+	contactTop: {
+		width: "100%",
+		justifyContent: "space-between",
+		flexDirection: "row",
+	},
+	bottomHalf: {
+		width: "100%",
+		gap: 8,
+		justifyContent: "space-between",
+		flexDirection: "row",
+		paddingRight: 4
+	},
+	unreadIndicator: {
+		width: 20,
+		height: 20,
+		backgroundColor: COLORS.plum,
+		alignItems: "center",
+		justifyContent: "center",
+		borderRadius: 100,
+		marginTop: -6
+	},
+	unreadNumber: {
+		color: COLORS.white,
+		fontSize: 12
+	}
 });
 
 interface UserMess {
@@ -106,49 +129,44 @@ interface UserMess {
 }
 
 export default function MessagesScreen() {
-	const data: UserMess[] = [
-		{
-			id: 1,
-			avatar: "https://picsum.photos/seed/id/200",
-			username: "Abel Lane",
-			pseudonym: "asdadasdasd",
-			lastMessage: "Hello, i am good",
-			lastTime: "9:21",
-			read: false,
-			isOnline: true,
-		},
-		{
-			id: 4,
-			avatar: "https://picsum.photos/seed/asd/400",
-			username: "Ann Ti",
-			pseudonym: "asdadasdasd",
-			lastMessage: "Когда репозиторий кинешь?",
-			lastTime: "7:01",
-			read: true,
-			isOnline: false,
-		},
-		{
-			id: 3,
-			avatar: "https://picsum.photos/seed/23/300",
-			username: "Lisa Anom",
-			pseudonym: "asdadasdasd",
-			lastMessage: "Свободен?",
-			lastTime: "25.01.2024",
-			read: true,
-			isOnline: true,
-		},
-		{
-			id: 7,
-			avatar: "https://picsum.photos/seed/sss/500",
-			username: "Cameron Jameson",
-			pseudonym: "asdadasdasd",
-			lastMessage: "Привет!",
-			lastTime: "01.01.2001",
-			read: true,
-			isOnline: false,
-		},
-	];
-    const router = useRouter()
+	const { data } = useGetPersonalChatListQuery({});
+	const router = useRouter();
+	const { user } = useUserContext()
+		const {data: unreadData} = useGetUnreadDataQuery({})
+		const personalNum = unreadData?.unreadPersonalChats
+		const newPersonalIcon = (
+			<View style = {{
+				width: 20,
+				height: 20,
+				position: "relative",
+				justifyContent: "center",
+				alignItems: "center"
+			}}>
+				<Icons.ChatsIcon color = {COLORS.plum}/>
+				{!!(personalNum && (personalNum ? (personalNum > 0) : false)) && (
+					<View style = {{
+						backgroundColor: COLORS.red,
+						justifyContent: "center",
+						alignItems: "center",
+						width: 20,
+						height: 20,
+						borderWidth: 2.25,
+						borderStyle: "solid",
+						borderColor: COLORS.white,
+						borderRadius: 60,
+						position: "absolute",
+						right: -6,
+						top: -6
+					}}>
+						<Text style = {{
+							fontSize: 11,
+							color: COLORS.white
+						}}>{personalNum < 100 ? personalNum : "99"}</Text>
+					</View>
+				)}
+			</View>
+		)
+
 	return (
 		<View style={{ backgroundColor: "#FAF8FF", height: "100%" }}>
 			<Submenu
@@ -162,7 +180,7 @@ export default function MessagesScreen() {
 					{
 						name: "Повідомлення",
 						href: "chats_add/messages",
-						icon: <Icons.ChatsIcon />,
+						icon: newPersonalIcon
 					},
 					{
 						name: "Групові чати",
@@ -186,36 +204,71 @@ export default function MessagesScreen() {
 				</View>
 				<ScrollView style={blockStyles.contactList}>
 					{Array.isArray(data) &&
-						data.map((el) => (
-							<TouchableOpacity
-								style={[blockStyles.contact, !el.read && blockStyles.selected]}
-								key={el.id}
-                                onPress = {() => {router.navigate(`chats_add/1h${el.id}`)}}
-							>
-								<View style={blockStyles.contactImage}>
-									<AvatarWithIndicator
-										originalImagePath={el.avatar}
-										compressedImagePath={el.avatar}
-										isOnline={el.isOnline}
-                                        styles={blockStyles.contactImage}
-                                        imageStyles={blockStyles.contactImage}
-                                        indicatorStyles={{
-                                            right: 3,
-                                            bottom: 3,
-                                            width: 12,
-                                            height: 12
-                                        }}
-									/>
-								</View>
-                                <View style = {blockStyles.textData}>
-                                    <View style = {blockStyles.contactTop}>
-								        <Text style={blockStyles.contactUsername}>{el.username}</Text>
-                                        <Text style = {blockStyles.timeText}>{el.lastTime}</Text>
-                                    </View>
-                                    <Text style = {blockStyles.message}>{el.lastMessage}</Text>
-                                </View>
-							</TouchableOpacity>
-						))}
+						data.map((el) => {
+							let timeText = "";
+							let hour, minute;
+							if (el.lastMessage?.created_at){
+								const [year, month, day] = `${el.lastMessage.created_at}`.split("T")[0].split("-");
+								const [currentYear, currentMonth, currentDay] = new Date().toISOString().split("T")[0].split("-")
+								console.log(currentYear, currentMonth, currentDay, new Date().toISOString())
+								if (year != currentYear || month != currentMonth || day != currentDay){
+									timeText = `${day}.${month}.${year}`
+								}
+								else {
+									[hour, minute] = `${el.lastMessage.created_at}`
+										.split("T")[1]
+										.split(":")
+										.slice(0, 2);
+									hour=+hour+2
+									timeText = `${hour}:${minute}`
+								}
+							}
+							if (el.lastMessage) console.log(el.lastMessage.messageReaders.filter(i => i.user.id === user?.id).length, el.lastMessage.messageReaders)
+							const read = el.lastMessage ? !!(el.lastMessage.messageReaders.filter(i => i.user.id === user?.id).length) : true
+							return (
+								<TouchableOpacity
+									style={[blockStyles.contact, !read && blockStyles.selected]}
+									key={el.id}
+									onPress={() => {
+										router.navigate(`chats_add/1h${el.userId}`);
+									}}
+								>
+									<View style={blockStyles.contactImage}>
+										<AvatarWithIndicator
+											originalImagePath={el.avatar}
+											compressedImagePath={el.avatar}
+											isOnline={el.isOnline}
+											styles={blockStyles.contactImage}
+											imageStyles={blockStyles.contactImage}
+											indicatorStyles={{
+												right: 3,
+												bottom: 3,
+												width: 12,
+												height: 12,
+											}}
+										/>
+									</View>
+									<View style={blockStyles.textData}>
+										<View style={blockStyles.contactTop}>
+											<Text style={blockStyles.contactUsername}>
+												{el.name}
+											</Text>
+											<Text style={blockStyles.timeText}>{timeText}</Text>
+										</View>
+										<View style = {blockStyles.bottomHalf}>
+											<Text style={blockStyles.message}>{el.lastMessage?.text}</Text>
+											{el.messagesUnread > 0 && (
+												<View style = {blockStyles.unreadIndicator}>
+													<Text style = {blockStyles.unreadNumber}>
+														{el.messagesUnread < 100 ? el.messagesUnread : 99}
+													</Text>
+												</View>
+											)}
+										</View>
+									</View>
+								</TouchableOpacity>
+							);
+						})}
 				</ScrollView>
 			</View>
 			<View

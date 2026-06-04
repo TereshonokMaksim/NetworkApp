@@ -1,8 +1,10 @@
 import type { UserProfile } from "../types/friends.types";
 import { baseApi } from "../../../shared/api/api";
+import { ChatInfo, ChatShort, UnreadMessagesInfo } from "./friends-api.types";
+import { NewMessage, SendMessagePayload } from "../../../shared/socket/socket.contracts";
 
 export const tagsApi = baseApi
-    .enhanceEndpoints({ addTagTypes: ["friends", "requests", "recomendations"] })
+    .enhanceEndpoints({ addTagTypes: ["friends", "requests", "recomendations", "unreadData"] })
     .injectEndpoints({ endpoints: (build) => {
         return {
             getFriends: build.query<UserProfile[], object>({
@@ -57,6 +59,57 @@ export const tagsApi = baseApi
                 invalidatesTags: ["requests"]
             }),
 
+            getPersonalChat: build.query<ChatInfo, {userId: number}>({
+                query: (body) => ({
+                    url: `chats/personal/${body.userId}`,
+                    method: "GET"
+                }),
+            }),
+            getPersonalChatList: build.query<ChatShort[], object>({
+                query: (body?) => ({
+                    url: `chats/personal`,
+                    method: "GET"
+                })
+            }),
+            markMessage: build.mutation<object, {messageId: number}>({
+                query: (body) => ({
+                    url: `chats/messages/${body.messageId}`,
+                    method: "POST"
+                })
+            }),
+            getUnreadData: build.query<UnreadMessagesInfo, object>({
+                query: (body) => ({
+                    url: "chats/messages/unread",
+                    method: "GET"
+                }),
+                providesTags: ["unreadData"]
+            }),
+            sendMessageWithImages: build.mutation<object, SendMessagePayload>({
+                query: (body) => {
+                    const { messageImages, ...elseBody } = body;
+                    const newFormData = new FormData();
+                    if (messageImages) {
+                        messageImages.forEach((img, index) => {
+                            newFormData.append("media", {
+                                uri: img,
+                                type: "image/jpeg",
+                                name: `${Date.now()}-${index}.jpeg`,
+                            } as any);
+                        });
+                    }
+					Object.entries(elseBody).forEach(([key, value]) => {
+                        
+						if (value) { 
+                            if (typeof value === "string" || typeof value === "number") newFormData.append(key, String(value));
+                            else newFormData.append(key, JSON.stringify(value));
+                        }
+					});
+                    return {
+                        url: `chats/message/`,
+                        method: "POST",
+                        body: newFormData,
+                    };}
+            })
         }
     } 
 });
@@ -70,5 +123,12 @@ export const {
     useMakeRequestMutation,
 
     useDeleteFriendMutation,
-    useDeleteRequestMutation
+    useDeleteRequestMutation,
+
+    useGetPersonalChatQuery,
+    useGetPersonalChatListQuery,
+    useMarkMessageMutation,
+    useGetUnreadDataQuery,
+    useSendMessageWithImagesMutation,
+    util: friendUtil
 } = tagsApi

@@ -1,16 +1,21 @@
 import {
-	BaseQueryFn,
 	createApi,
-	FetchArgs,
 	fetchBaseQuery,
-	FetchBaseQueryError,
-	FetchBaseQueryMeta,
 } from "@reduxjs/toolkit/query/react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AvatarPayload, AvatarResponse, LoginPayload, LoginResponse, MeResponse, ModifyPayload, ModifyResponse, Profile, RegPayload, RegResponse, VerifyPayload, VerifyResponse } from "./api.types";
+import {
+	LoginPayload,
+	LoginResponse,
+	MeResponse,
+	ModifyPayload,
+	ModifyResponse,
+	Profile,
+	RegPayload,
+	RegResponse,
+	VerifyPayload,
+	VerifyResponse,
+} from "./api.types";
 import { BACK_HOST } from "../constants/api-data";
-import { Album, AlbumCreate, AlbumEdit, AlbumImageCreate, AlbumImageForShow, Tag } from "../albums";
-
 
 export const queryBaseHeaders = async (headers: Headers) => {
 	const token = await AsyncStorage.getItem("token");
@@ -41,50 +46,58 @@ export const baseApi = createApi({
 					url: "users/register",
 					method: "POST",
 					body,
-				})
+				}),
 			}),
 			verify: build.mutation<VerifyResponse, VerifyPayload>({
 				query: (body) => ({
 					url: "users/verify",
 					method: "POST",
 					body,
-				})
+				}),
 			}),
 			me: build.query<MeResponse, void>({
 				query: () => ({ url: "users/me" }),
-				providesTags: ["user"]
+				providesTags: ["user"],
 			}),
 			modify: build.mutation<ModifyResponse, ModifyPayload>({
 				query: (body) => {
-					const {avatar, ...elseBody} = body
+					const { avatar, ...elseBody } = body;
 					const newFormData = new FormData();
 					Object.entries(elseBody).forEach(([key, value]) => {
 						if (value) newFormData.append(key, String(value));
 					});
-					if (avatar){
+					if (avatar) {
 						newFormData.append("avatar", {
 							uri: avatar,
 							type: "images/jpeg",
 							name: `${Date.now()}.jpeg`,
-						} as any)
+						} as any);
 					}
+					console.log("Modifying", avatar)
+					console.log(FormData)
 					return {
 						url: "users/me",
 						method: "PATCH",
 						body: newFormData,
-					}
+					};
 				},
-				invalidatesTags: ["avatarImages", "user"]
+				invalidatesTags: ["avatarImages", "user"],
 			}),
-			getProfile: build.query<Profile, {userId: number}>({
+			getProfile: build.query<Profile, { userId: number }>({
 				query: (body) => ({
-					url: `users/profile/${body.userId}`
-				})
+					url: `users/profile/${body.userId}`,
+				}),
 			})
 			// createAlbum: build.mutation
 		};
 	},
 });
 
-export const { useMeQuery, useRegisterMutation, useLoginMutation, useModifyMutation, useVerifyMutation, useGetProfileQuery
- } = baseApi;
+export const {
+	useMeQuery,
+	useRegisterMutation,
+	useLoginMutation,
+	useModifyMutation,
+	useVerifyMutation,
+	useGetProfileQuery,
+} = baseApi;

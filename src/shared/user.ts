@@ -49,5 +49,5 @@ export type UserPowered = {
     verified: boolean;
     createdAt: Date;
     isAdmin: boolean;
-    avatarPath: string | null | undefined;
+    avatar: string | null | undefined;
 }

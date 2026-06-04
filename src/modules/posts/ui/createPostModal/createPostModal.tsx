@@ -336,7 +336,7 @@ export function CreatePostModal(props: CreatePostModalProps) {
                                         mediaTypes: "images",
                                     });
                                     if (result.status === "error") {
-                                        Alert.alert("IMAGE DIED AAAAAAAAAAAAAAAAAAA", result.message);
+                                        console.log("User cancelled image selection.")
                                         return;
                                     }
                                     const image = result.assets[0];
