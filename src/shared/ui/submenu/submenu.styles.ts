@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
     },
     submenuReversed: {
         paddingTop: 23.75,
-        paddingLeft: 16.33,
-        paddingRight: 16.33,
+        paddingLeft: 26,
+        paddingRight: 26,
         flexDirection: "row",
         gap: 16,
         backgroundColor: "white",
@@ -36,11 +36,11 @@ export const styles = StyleSheet.create({
         minHeight: 26,
         maxHeight: 26,
         fontFamily: "GTWP Medium",
-        color: COLORS.plum
+        color: COLORS.blue
     },
     textActivated: {
         display: 'flex',
-        alignContent: "flex-start",
+        alignItems: "flex-start",
         justifyContent: "flex-start",
         minHeight: 26,
         maxHeight: 26,
@@ -53,22 +53,24 @@ export const styles = StyleSheet.create({
     },
     textActivatedReversed: {
         display: 'flex',
-        alignContent: "flex-start",
+        alignItems: "flex-start",
         justifyContent: "flex-start",
         minHeight: 26,
         maxHeight: 26,
         fontSize: 16,
         fontFamily: "GTWP Bold",
-        color: COLORS.plum
+        color: COLORS.blue
     },
     reversedActiveLink: {
-        borderStyle: "solid",
-        borderTopWidth: 2,
         borderColor: COLORS.plum,
     },
     reversedLink: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        paddingTop: 8,
+        borderTopWidth: 2,
+        borderStyle: "solid",
+        borderColor: "transparent"
     }
 })

@@ -2,8 +2,10 @@ import { Input } from "../../../../shared/ui/input";
 import { Button } from "../../../../shared/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { View, Text, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { styles } from "./log-form.styles";
+import { useUserContext } from "../../../../shared/context/user";
+import { useLoginMutation } from "../../../../shared/api/api";
 
 
 interface LogFormSchema { 
@@ -20,9 +22,15 @@ export function LogForm(){
             passwordConf: ""
 		},
 	});
+    const { setToken } = useUserContext()
+    const [logMut] = useLoginMutation()
 
-	function onSubmit(data: LogFormSchema) {
-		console.log(data);
+	async function onSubmit(data: LogFormSchema) {
+        const result = await logMut({email: data.email, password: data.password}).unwrap()
+        if ("token" in result){
+            setToken(result.token)
+            router.push("main")
+        }
 	}
     return (
         <View style = {styles.mainForm}>
@@ -74,7 +82,7 @@ export function LogForm(){
                     }}
                 />
             </View>
-            <Button variant = "primary" paddingVar = "big" onPress = {() => {handleSubmit(onSubmit)}} title = "Ввійти"/>
+            <Button variant = "primary" paddingVar = "big" onPress = {handleSubmit(onSubmit)} title = "Ввійти"/>
         </View>
     )
 }

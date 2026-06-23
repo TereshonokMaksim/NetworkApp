@@ -1,9 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { Submenu } from "../../../../shared/ui/submenu/submenu";
 import { COLORS } from "../../../../shared/constants/colors";
+import { useGetRecomendationsQuery } from "../../../../modules/friends/api";
+import { UsersBlock } from "../../../../modules/friends/ui/usersBlock";
 
 
 export default function FriendsRecomendationsScreen(){
+    const data = useGetRecomendationsQuery({})
     return (
         <View style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
             <Submenu
@@ -19,7 +22,8 @@ export default function FriendsRecomendationsScreen(){
                         },
                         {
                             name: "Рекомендації",
-                            href: "friends/recomendations"
+                            href: "friends/recomendations",
+						    choosed: true
                         },
                         {
                             name: "Всі друзі",
@@ -28,9 +32,17 @@ export default function FriendsRecomendationsScreen(){
                     ]
                 }
             />
-            <Text style = {{backgroundColor: "#FAF8FF", height: "100%"}}>
-                Friends Recomendations Page
-            </Text>
+            <ScrollView contentContainerStyle = {{paddingBottom: 10}}>
+                <UsersBlock
+                    name="Рекомендації"
+                    profiles={data.data ? data.data : []}
+                    actionText="Додати"
+                    actionOnProceed={(i: number) => {}}
+                    dontShowAllLink = {true}
+                    actionOnDelete={(id?) => {}}
+                    emptyListText = "Рекомендацій поки що немає."
+                />
+            </ScrollView>
             <View style = {{width: "15%", height: 2, backgroundColor: COLORS.plum, position: "absolute", bottom: 0, left: "55%", }}></View>
         </View>
     )

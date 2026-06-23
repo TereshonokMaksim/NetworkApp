@@ -10,15 +10,15 @@ export function Submenu(props: SubmenuProps){
     return (
         <View style = {!reversed ? styles.submenu : styles.submenuReversed}>
             {links.map((el) => {
-                let processed = currentLink.slice(1, currentLink.length)
                 if (reversed) return <Link href = {el.href} key = {el.href} asChild>
-                    <TouchableOpacity style = {StyleSheet.flatten([processed == el.href ? [styles.reversedLink, styles.reversedActiveLink] : [styles.reversedLink]])}>
+                    <TouchableOpacity style = {StyleSheet.flatten([el.choosed ? [styles.reversedLink, styles.reversedActiveLink] : [styles.reversedLink]])}>
                         {!!el.icon && el.icon}
-                        <Text style = {StyleSheet.flatten([processed != el.href ? styles.textBaseReversed : styles.textActivatedReversed])}>{el.name}</Text>
+                        {/* <Text style = {StyleSheet.flatten([processed != el.href ? styles.textBaseReversed : styles.textActivatedReversed])}>{el.name}</Text> */}
+                        <Text style = {StyleSheet.flatten([true ? styles.textBaseReversed : styles.textActivatedReversed])}>{el.name}</Text>
                     </TouchableOpacity>
                 </Link>
                 return <Link href = {el.href} key = {el.href} asChild>
-                    <Text style = {StyleSheet.flatten([processed != el.href ? styles.textBase : styles.textActivated])}>{el.name}</Text>
+                    <Text style = {StyleSheet.flatten([el.choosed ? styles.textActivated : styles.textBase])}>{el.name}</Text>
                 </Link>
             })}
         </View>

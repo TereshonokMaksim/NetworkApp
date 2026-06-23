@@ -6,6 +6,7 @@ export default function SettingLayout() {
 		<Stack screenOptions={{ headerShown: false, animation: "none" }}>
 			<Stack.Screen name="groups" />
 			<Stack.Screen name="messages" />
+			<Stack.Screen name="[chatIdData]" />
 		</Stack>
 	);
 }

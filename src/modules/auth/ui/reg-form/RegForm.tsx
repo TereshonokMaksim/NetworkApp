@@ -2,8 +2,10 @@ import { Input } from "../../../../shared/ui/input";
 import { Button } from "../../../../shared/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { View, Text, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { styles } from "./reg-form.styles";
+import { useRegisterMutation } from "../../../../shared/api/api";
+import { useUserContext } from "../../../../shared/context/user";
 
 
 interface RegFormSchema { 
@@ -12,17 +14,72 @@ interface RegFormSchema {
     passwordConf: string
 }
 
+type PasswordCheckResult = {
+  valid: boolean;
+  errors: string[];
+};
+
+export function validatePassword(password: string): string | boolean {
+    const errors: string[] = [];
+
+    if (password.length < 8) {
+        return "Длина пароля має бути хоча б 8 символів!"
+    }
+
+    if (!/[a-z]/.test(password)) {
+        return "У паролю має бути хоча б одна мала літера!"
+        errors.push("Password must contain at least one lowercase letter.");
+    }
+
+    if (!/[A-Z]/.test(password)) {
+        return "У паролю має бути хоча б одна велика літера!"
+        errors.push("Password must contain at least one uppercase letter.");
+    }
+
+    if (!/[0-9]/.test(password)) {
+        return "У паролю має бути хоча б одна цифра!"
+        errors.push("Password must contain at least one number.");
+    }
+
+    if (!/[^a-zA-Z0-9]/.test(password)) {
+        return "У паролю має бути хоча б один спеціальний символ!"
+        errors.push("Password must contain at least one special character.");
+    }
+
+    if (/^[0-9]+$/.test(password)) {
+        return "Пароль не може бути тільки цифрами!"
+        errors.push("Password cannot be only numbers.");
+    }
+
+    return true;
+}
+
 export function RegForm(){
-	const { handleSubmit, control } = useForm({
+	const { handleSubmit, control, setError } = useForm({
 		defaultValues: {
 			email: "",
 			password: "",
             passwordConf: ""
 		},
 	});
-
-	function onSubmit(data: RegFormSchema) {
-		console.log(data);
+    const { setToken } = useUserContext()
+    const [regMut] = useRegisterMutation()
+	async function onSubmit(data: RegFormSchema) {
+        if (data.password != data.passwordConf){
+            setError("password", {type: "manual", message: "Паролі мають співпадати!"})
+            setError("passwordConf", {type: "manual", message: "Паролі мають співпадати!"})
+            return
+        }
+        const passTest = validatePassword(data.password)
+        if (typeof passTest === "string"){
+            setError("password", {type: "manual", message: passTest})
+            return
+        }
+        const result = await regMut({email: data.email, password: data.password}).unwrap()
+        if ("token" in result){
+            setToken(result.token)
+            router.push("user/verification")
+        }
 	}
     return (
         <View style = {styles.mainForm}>
@@ -91,7 +148,7 @@ export function RegForm(){
                     }}
                 />
             </View>
-            <Button variant = "primary" paddingVar = "big" onPress = {() => {handleSubmit(onSubmit)}} title = "Створити акаунт"/>
+            <Button variant = "primary" paddingVar = "big" onPress = {handleSubmit(onSubmit)} title = "Створити акаунт"/>
         </View>
     )
 }

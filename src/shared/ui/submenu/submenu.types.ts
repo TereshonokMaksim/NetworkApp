@@ -5,6 +5,7 @@ export interface SubmenuProps {
     links: {
         name: string,
         href: string,
+        choosed?: boolean,
         icon?: ReactNode
     }[]
 }

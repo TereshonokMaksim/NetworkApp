@@ -1,0 +1,1 @@
+export { QuickUserView } from "./quickUserView"

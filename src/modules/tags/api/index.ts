@@ -1,0 +1,1 @@
+export { useGetAllTagsQuery, useGetTagByIdQuery } from "./tags-api"

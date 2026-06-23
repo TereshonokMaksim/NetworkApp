@@ -1,0 +1,1 @@
+export { EnhancedChatIcon } from "./enhancedChatIcon"
